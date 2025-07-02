@@ -1,6 +1,4 @@
-// server.js
-
-require('dotenv').config(); // ✅ ADDED to load environment variables
+require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -12,16 +10,21 @@ app.use(cors());
 app.use(express.json());
 app.use('/api', routes);
 
+// Add a root route to handle GET / requests
+app.get('/', (req, res) => {
+  res.send('Welcome to the Job Portal Backend API. Use /api/jobs for job-related endpoints.');
+});
+
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(process.env.MONGO_URI, { // ✅ Changed from MONGODB_URI to MONGO_URI to match your .env
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => {
     console.error('MongoDB connection error:', err);
-    process.exit(1); 
+    process.exit(1);
   });
 
 app.listen(PORT, () => {
