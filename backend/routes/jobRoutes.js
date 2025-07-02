@@ -2,12 +2,16 @@ const express = require('express');
 const router = express.Router();
 const Job = require('../models/Job');
 
-router.get('/api/jobs', async (req, res) => {
+router.post('/api/jobs', async (req, res) => {
   try {
-    const jobs = await Job.find();
-    res.json(jobs);
+    const { title, description, company, location, salary } = req.body;
+    if (!title || !description || !company) {
+      return res.status(400).json({ message: 'Title, description, and company are required' });
+    }
+    const newJob = await Job.create({ title, description, company, location, salary });
+    res.status(201).json(newJob);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 });
 
