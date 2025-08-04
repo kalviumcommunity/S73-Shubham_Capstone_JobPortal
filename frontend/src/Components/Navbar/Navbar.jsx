@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import './Navbar.css';
@@ -6,6 +6,7 @@ import './Navbar.css';
 const Navbar = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Store navigation links in an array to keep the code clean and scalable.
   const navLinks = [
@@ -17,13 +18,34 @@ const Navbar = () => {
 
   const closeMenu = () => setIsMenuOpen(false);
 
+  // Effect to handle scroll detection for styling
+  useEffect(() => {
+    const handleScroll = () => {
+      // Set scrolled state to true if user scrolls more than 10px, otherwise false
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    // Add event listener when the component mounts
+    window.addEventListener('scroll', handleScroll);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []); // Empty dependency array means this effect runs only once on mount
+
+  // Combine class names dynamically
+  const navbarClasses = `navbar ${isScrolled ? 'scrolled' : ''}`;
+
   return (
-    <header className="navbar">
+    // The 'scrolled' class is now dynamically added here
+    <header className={navbarClasses}>
       <div className="navbar-container">
         <span className="logo" onClick={() => navigate('/')}>
           HireOnyx
         </span>
 
+        {/* The nav-menu now correctly centers the links */}
         <nav className={`nav-menu ${isMenuOpen ? 'open' : ''}`}>
           <ul className="nav-links">
             {navLinks.map((link) => (
