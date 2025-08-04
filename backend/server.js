@@ -9,7 +9,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/api', routes);
-
 // Add a root route to handle GET / requests
 app.get('/', (req, res) => {
   res.send('Welcome to the Job Portal Backend API. Use /api/jobs for job-related endpoints.');
