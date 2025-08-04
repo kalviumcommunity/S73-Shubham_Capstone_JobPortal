@@ -1,47 +1,92 @@
-/* Define reusable variables for colors and spacing */
-:root {
-  --primary-color: #4C3EFF;
-  --text-color: #555;
-  --text-color-dark: #000;
-  --background-color: #fff;
-  --border-color: #e0e0e0;
-  --max-width: 1200px; /* Adjust this to match your main content's max-width */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Outer navbar for background and positioning */
+:root {
+  --primary-color: #0d3c94;
+  --text-color: #1f2937;
+  --text-color-light: #6b7280;
+  --background-color: #f9fafb;
+  --surface-color: rgba(249, 250, 251, 0.7);
+  --shadow-color-light: rgba(0, 0, 0, 0.05);
+  --shadow-color-heavy: rgba(0, 0, 0, 0.1);
+  --max-width: 1280px;
+  --border-radius: 16px;
+  --transition-speed: 0.3s;
+}
+
 .navbar {
-  background-color: var(--background-color);
-  border-bottom: 1px solid var(--border-color);
   position: fixed;
   top: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
   z-index: 1000;
+  padding: 1.5rem;
+  transition: padding var(--transition-speed) ease-in-out;
 }
 
-/* Inner container to align content with the page */
+.navbar.scrolled {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
 .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 15px 20px;
-  height: 75px;
+  padding: 0.5rem 1.5rem;
+  height: 65px;
   box-sizing: border-box;
+  border-radius: var(--border-radius);
+  background-color: var(--background-color);
+  box-shadow: 0 4px 20px -5px var(--shadow-color-light);
+  animation: fadeInDown 0.6s ease-in-out forwards;
+  transition: background-color var(--transition-speed) ease,
+    box-shadow var(--transition-speed) ease,
+    backdrop-filter var(--transition-speed) ease;
 }
 
+/* On scroll, apply glass effect */
+.navbar.scrolled .navbar-container {
+  background-color: var(--surface-color);
+  box-shadow: 0 10px 35px -10px var(--shadow-color-heavy);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* logo left aligned and vertically centered */
 .logo {
-  font-weight: 800;
+  font-weight: 700;
   color: var(--primary-color);
-  font-size: 34px;
+  font-size: 28px;
   cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* new flex: center nav links while logo stays left and auth buttons right */
+.nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .nav-links {
   display: flex;
+  justify-content: center;
   align-items: center;
   list-style: none;
-  gap: 40px;
+  gap: 8px;
   margin: 0;
   padding: 0;
 }
@@ -50,97 +95,117 @@
   position: relative;
   color: var(--text-color);
   font-weight: 500;
-  font-size: 18px;
+  font-size: 16px;
   text-decoration: none;
-  padding-bottom: 8px;
-  transition: color 0.3s ease;
+  padding: 8px 16px;
+  border-radius: 10px;
+  transition: color var(--transition-speed) ease,
+    background-color var(--transition-speed) ease,
+    transform var(--transition-speed) ease;
 }
 
-/* NavLink's active class and hover states */
-.nav-item:hover,
+.nav-item:hover {
+  color: var(--text-color);
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
 .nav-item.active {
-  color: var(--text-color-dark);
-}
-
-.nav-item::after {
-  content: '';
-  position: absolute;
-  height: 2px;
-  width: 0;
-  left: 0;
-  bottom: 0;
-  background-color: var(--text-color-dark);
-  transition: width 0.3s ease;
-}
-
-.nav-item:hover::after,
-.nav-item.active::after {
-  width: 100%;
+  color: #ffffff;
+  background-color: var(--primary-color);
 }
 
 .auth-buttons {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 .signin {
-  color: var(--text-color-dark);
-  font-size: 18px;
+  color: var(--text-color);
+  font-size: 16px;
   font-weight: 500;
   cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: background-color var(--transition-speed) ease,
+    transform var(--transition-speed) ease;
+}
+
+.signin:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
 }
 
 .signup {
-  background-color: var(--text-color-dark);
-  color: var(--background-color);
+  background-color: #111827;
+  color: #ffffff;
   border: none;
   padding: 10px 20px;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-speed) ease,
+    transform 0.2s ease, box-shadow var(--transition-speed) ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .signup:hover {
-  background-color: #333;
+  background-color: #374151;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .menu-toggle {
   display: none;
   cursor: pointer;
+  color: var(--text-color);
+  padding: 8px;
+  border-radius: 10px;
+  transition: background-color var(--transition-speed) ease;
 }
 
-/* Responsive styling */
+.menu-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive Styling */
 @media (max-width: 992px) {
-  .nav-menu {
+  .nav-center {
     display: none;
-    position: fixed;
-    top: 75px; /* Height of the navbar */
-    right: 0;
-    background-color: var(--background-color);
-    height: calc(100vh - 75px);
-    width: 250px;
-    box-shadow: -2px 0 8px rgba(0,0,0,0.1);
   }
-  
-  .nav-menu.open {
+
+  .nav-center.open {
     display: block;
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 1.5rem;
+    width: 250px;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px -10px var(--shadow-color-heavy);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    padding: 1rem;
+    animation: fadeInDown 0.3s ease-in-out forwards;
   }
-  
+
   .nav-links {
     flex-direction: column;
-    align-items: flex-start;
-    padding: 30px;
-    gap: 25px;
+    align-items: stretch;
+    gap: 8px;
   }
-  
+
+  .nav-item {
+    text-align: center;
+  }
+
   .menu-toggle {
     display: block;
   }
 
   .auth-buttons {
-    display: none; /* Optionally hide auth buttons in mobile menu for simplicity */
+    display: none;
   }
-} 
+}
