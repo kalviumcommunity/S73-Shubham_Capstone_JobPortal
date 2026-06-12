@@ -1,5 +1,5 @@
 lets see where life takes me
-
+lets build something big
 Let finish it
 wassupp
 Capstoneeee Project
